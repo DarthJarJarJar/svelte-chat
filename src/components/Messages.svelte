@@ -47,9 +47,9 @@
 </script>
 {#if messagesList}
 {#each messagesList as message}
-<p class="username">{message.name}</p>
+
     {#if (currentUid===message.uid)}
-   
+    <p class="username scg">{message.name}</p>
     <div class="message sen">
         
     <div class="item s">
@@ -59,13 +59,14 @@
     <div class=" item">
         {#if (currentUid===message.uid)}
         <p class="sender">{message.message}</p>
-        {:else} <p class="notsender">{message.message}</p>
+        {:else}<p class="notsender">{message.message}</p>
         {/if}
     </div>
     </div>
   
   
     {:else}
+    <p class="username rcg">{message.name}</p> 
     <div class="message rec">
         <div class="item ns">
         <!-- svelte-ignore a11y-missing-attribute -->
@@ -105,6 +106,14 @@
 
 
     }
+
+    .rcg {
+        text-align: left;
+        justify-content: left;
+        justify-items: left;
+        margin-right:17rem;
+    }
+    
 
     .rec {
         justify-content: left;
