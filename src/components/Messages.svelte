@@ -1,0 +1,143 @@
+<script>
+    import { app } from "../firebase"
+    import { collection, query, orderBy, limit, getFirestore, getDocs, doc, onSnapshot} from "firebase/firestore";
+    import { getAuth, onAuthStateChanged } from 'firebase/auth';
+    import { onMount } from "svelte";
+
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    let currentUid;
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+        currentUid = user.uid
+    } else {
+        currentUid = null
+    }
+    });
+    async function cg() {
+        let listM = [];
+        const messagesRef = collection(db, "messages")
+        const q = query(messagesRef, orderBy("createdAt", "desc"))
+        
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+        listM.push(doc.data())
+
+    });
+        messagesList = listM
+        console.log(messagesList)
+    }
+
+    const q = query(collection(db, "messages"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+  snapshot.docChanges().forEach((change) => {
+    if (change.type === "added") {
+        cg()
+    }
+   
+  });
+});
+
+    $: messagesList = [];
+    onMount(async() => {
+        cg()
+    })
+
+</script>
+{#if messagesList}
+{#each messagesList as message}
+
+    {#if (currentUid===message.uid)}
+   
+    <div class="message sen">
+
+    <div class="item s">
+        <!-- svelte-ignore a11y-missing-attribute -->
+        <img src={message.avatar}>
+    </div>
+    <div class=" item">
+        {#if (currentUid===message.uid)}
+        <p class="sender">{message.message}</p>
+        {:else} <p class="notsender">{message.message}</p>
+        {/if}
+    </div>
+    </div>
+  
+  
+    {:else}
+    <div class="message rec">
+        <div class="item ns">
+        <!-- svelte-ignore a11y-missing-attribute -->
+        <img src={message.avatar}>
+    </div>
+    <div class="item">
+        {#if (currentUid===message.uid)}
+        <p class="sender">{message.message}</p>
+        {:else} <p class="notsender">{message.message}</p>
+        {/if}
+    </div>
+    </div>
+    {/if}
+
+    
+
+{/each}
+{:else} <div class="message"><p>Nothing to display</p></div>
+{/if}
+
+
+
+
+<style>
+
+
+    .sen {
+        align-self: right;
+        align-items: right;
+        align-content: right;
+        justify-content: right;
+
+
+    }
+
+    .rec {
+        justify-content: left;
+    }
+
+
+
+
+    .message {
+        background-color: white;
+        display: flex;
+    }
+
+    .message:hover {
+        background-color: lighgray;
+    }
+
+    p {
+        padding: 8px;
+        border-radius: 0.5rem;
+        width: fit-content;
+        overflow: scroll;
+        
+    }
+    .sender {
+        background-color: lightblue;
+        
+    }
+    .notsender {
+        background-color: lightgray;
+    }
+    img {
+        width: 30px;
+        height: 30px;
+        border-radius: 2rem;
+        padding: 1rem;
+       
+    }
+    
+
+    
+</style>
