@@ -17,7 +17,7 @@
     async function cg() {
         let listM = [];
         const messagesRef = collection(db, "messages")
-        const q = query(messagesRef, orderBy("createdAt", "desc"))
+        const q = query(messagesRef, orderBy("createdAt", "desc", limit(10)))
         
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -25,6 +25,7 @@
 
     });
         messagesList = listM
+        console.log(listM)
         
     }
 
@@ -130,6 +131,8 @@
     }
     .sender {
         background-color: lightblue;
+        max-width: 10rem;
+        overflow-wrap: break-word;
         
     }
     .notsender {
