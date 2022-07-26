@@ -17,7 +17,8 @@
         createdAt: new Date(),
         uid: auth.currentUser.uid,
         message: message,
-        avatar: auth.currentUser.photoURL
+        avatar: auth.currentUser.photoURL,
+        name: auth.currentUser.displayName
         });
         message = ""
     }

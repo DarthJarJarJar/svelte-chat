@@ -25,7 +25,7 @@
 
     });
         messagesList = listM
-        console.log(messagesList)
+        
     }
 
     const q = query(collection(db, "messages"));
@@ -46,11 +46,11 @@
 </script>
 {#if messagesList}
 {#each messagesList as message}
-
+<p class="username">{message.name}</p>
     {#if (currentUid===message.uid)}
    
     <div class="message sen">
-
+        
     <div class="item s">
         <!-- svelte-ignore a11y-missing-attribute -->
         <img src={message.avatar}>
@@ -89,7 +89,12 @@
 
 
 <style>
-
+    .username {
+        color: gray;
+        margin-left: auto;
+        font-size: 0.8rem;
+        margin-top: -1rem;
+    }
 
     .sen {
         align-self: right;
@@ -120,7 +125,7 @@
         padding: 8px;
         border-radius: 0.5rem;
         width: fit-content;
-        overflow: scroll;
+        
         
     }
     .sender {
@@ -133,8 +138,12 @@
     img {
         width: 30px;
         height: 30px;
-        border-radius: 2rem;
-        padding: 1rem;
+        border-radius: 50%;
+        margin-top: 1.2rem;
+        margin-bottom: 1rem;
+        margin-left: 1rem;
+        margin-right: 0.5rem;
+
        
     }
     
