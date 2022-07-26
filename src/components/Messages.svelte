@@ -17,19 +17,20 @@
     async function cg() {
         let listM = [];
         const messagesRef = collection(db, "messages")
-        const q = query(messagesRef, orderBy("createdAt", "desc", limit(10)))
+        const q = query(messagesRef, orderBy("createdAt", "desc"), limit(100))
         
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
         listM.push(doc.data())
 
+
     });
         messagesList = listM
-        console.log(listM)
+        
         
     }
 
-    const q = query(collection(db, "messages"));
+    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"), limit(100));
     const unsubscribe = onSnapshot(q, (snapshot) => {
   snapshot.docChanges().forEach((change) => {
     if (change.type === "added") {
