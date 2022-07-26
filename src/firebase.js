@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD5Na09REN9_ZawVz1W_JYbZWo1bIjpcuE",
-  authDomain: "https://hcg-chat.vercel.app/",
+  authDomain: "hcg-chat.firebaseapp.com",
   projectId: "hcg-chat",
   storageBucket: "hcg-chat.appspot.com",
   messagingSenderId: "23372669823",
